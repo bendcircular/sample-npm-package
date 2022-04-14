@@ -8,7 +8,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Git configuration
         run: |
@@ -19,8 +19,17 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: yarn install
-      - run: yarn version --patch
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Configure Yarn
+        run: |
+          yarn config set version-git-message "ci(CD): Increment npm package version v%s"
+          yarn config set version-tag-prefix "@bendcircular/sample-npm-package@"
+
+      - name: Increment package version
+        run: yarn version --patch
 
       - name: Update tags
         run: |
