@@ -11,8 +11,6 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Git configuration
-        working-directory: ${{ inputs.packageBasePath }}${{ inputs.package }}
-        shell: bash
         run: |
           git config user.email "philipp@bendcircular.com"
           git config user.name "Philipp Litzenberger"
@@ -23,6 +21,11 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn install
       - run: yarn version --patch
+
+      - name: Update tags
+        run: |
+          git push
+          git push --tags
 
       - name: Publish stuff
         run: yarn publish --access public
