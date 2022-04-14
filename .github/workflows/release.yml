@@ -9,6 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
+      - name: Git configuration
+        working-directory: ${{ inputs.packageBasePath }}${{ inputs.package }}
+        shell: bash
+        run: |
+          git config user.email "philipp@bendcircular.com"
+          git config user.name "Philipp Litzenberger"
+
       - uses: actions/setup-node@v1
         with:
           node-version: 12
